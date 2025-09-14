@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jol_app/screens/auth/login_screen.dart';
+import 'package:jol_app/screens/auth/signup_screen.dart';
 import 'package:jol_app/screens/onboarding/onboarding_screen.dart';
 import 'package:jol_app/screens/splash_screen.dart';
 
