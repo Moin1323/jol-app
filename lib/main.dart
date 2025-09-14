@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jol_app/screens/onboarding/onboarding_screen.dart';
+import 'package:jol_app/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'JOL APP',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Placeholder(),
+      home: SplashScreen(),
     );
   }
 }
