@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jol_app/screens/auth/login_screen.dart';
 import 'package:jol_app/screens/auth/signup_screen.dart';
+import 'package:jol_app/screens/bnb/home_screen.dart';
+import 'package:jol_app/screens/dashboard/dashboard_screen.dart';
 import 'package:jol_app/screens/onboarding/onboarding_screen.dart';
 import 'package:jol_app/screens/splash_screen.dart';
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: DashboardScreen(),
     );
   }
 }
