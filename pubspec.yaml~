@@ -77,8 +77,8 @@ flutter:
       fonts:
         - asset: lib/assets/fonts/Digitalt.ttf
     - family: Aleo
-      fonts:
-        - asset: lib/assets/fonts/Aleo.ttf
+        fonts:
+            - asset: assets/fonts/Aleo-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
