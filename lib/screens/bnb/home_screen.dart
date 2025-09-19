@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jol_app/screens/dashboard/dashboard_screen.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const Center(child: Text("History Screen")),
+    DashboardScreen(),
     const Center(child: Text("Affiliates Screen")),
     const Center(child: Text("Play Screen")),
     const Center(child: Text("Group Screen")),
