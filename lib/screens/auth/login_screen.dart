@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jol_app/screens/auth/signup_screen.dart';
+import 'package:jol_app/screens/bnb/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -174,7 +175,10 @@ class LoginScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const HomeScreen()),
+                        ),
                         child: const Text(
                           "SIGN IN",
                           style: TextStyle(
