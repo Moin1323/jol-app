@@ -13,6 +13,8 @@ import 'package:jol_app/screens/play/result_screen.dart';
 import 'package:jol_app/screens/play/start_game_screen.dart';
 import 'package:jol_app/screens/play/submit_game_screen.dart';
 import 'package:jol_app/screens/settings/account_screen.dart';
+import 'package:jol_app/screens/settings/choose_color_screen.dart';
+import 'package:jol_app/screens/settings/money_screen.dart';
 import 'package:jol_app/screens/splash_screen.dart';
 
 void main() async {
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: AccountScreen(),
+      home: SplashScreen(),
     );
   }
 }

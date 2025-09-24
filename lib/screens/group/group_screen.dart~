@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../dashboard/notification_screen.dart';
 import '../onboarding/onboarding_screen.dart';
-import '../settings/account_screen.dart';
 
 class GroupsScreen extends StatefulWidget {
   const GroupsScreen({super.key});

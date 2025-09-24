@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jol_app/screens/dashboard/notification_screen.dart';
-import 'package:jol_app/screens/settings/account_screen.dart';
 
 import '../onboarding/onboarding_screen.dart';
 
@@ -178,7 +177,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                  const AccountScreen(),),
+                                  const ProfileScreen(),),
                             );
                           },
                           child: const CircleAvatar(

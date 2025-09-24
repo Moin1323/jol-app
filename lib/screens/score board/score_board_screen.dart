@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../dashboard/notification_screen.dart';
 import '../onboarding/onboarding_screen.dart';
+import '../settings/account_screen.dart';
 
 class ScoreBoardScreen extends StatefulWidget {
   const ScoreBoardScreen({super.key});
@@ -390,9 +391,19 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
               const SizedBox(width: 8),
 
               // 👤 Profile Avatar
-              const CircleAvatar(
-                radius: 18,
-                backgroundImage: AssetImage("lib/assets/images/settings_emoji.png"),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                      const AccountScreen(),),
+                  );
+                },
+                child: const CircleAvatar(
+                  radius: 18,
+                  backgroundImage: AssetImage("lib/assets/images/settings_emoji.png"),
+                ),
               ),
             ],
           ),

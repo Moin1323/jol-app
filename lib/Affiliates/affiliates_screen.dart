@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:jol_app/screens/dashboard/notification_screen.dart';
 
 import '../screens/onboarding/onboarding_screen.dart';
+import '../screens/settings/account_screen.dart';
 
 class AffiliatesScreen extends StatefulWidget {
   const AffiliatesScreen({super.key});
@@ -312,9 +313,19 @@ class _AffiliatesScreenState extends State<AffiliatesScreen> {
               ),
               const SizedBox(width: 8),
 
-              const CircleAvatar(
-                radius: 18,
-                backgroundImage: AssetImage("lib/assets/images/settings_emoji.png"),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                      const AccountScreen(),),
+                  );
+                },
+                child: const CircleAvatar(
+                  radius: 18,
+                  backgroundImage: AssetImage("lib/assets/images/settings_emoji.png"),
+                ),
               ),
             ],
           ),
