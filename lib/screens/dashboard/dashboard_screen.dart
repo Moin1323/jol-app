@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jol_app/screens/dashboard/notification_screen.dart';
+
+import '../onboarding/onboarding_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -22,7 +25,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         statusBarIconBrightness: Brightness.dark,
       ),
     );
-
     return Scaffold(
       body: Container(
         // Gradient background
@@ -61,23 +63,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Row(
                       children: [
                         // ✅ HOW TO PLAY (pill button)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 7),
-                          decoration: BoxDecoration(
-                            color: textGreen,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                                color: Colors.white.withOpacity(0.9),
-                                width: 2.5),
-                          ),
-                          child: const Text(
-                            "HOW TO PLAY",
-                            style: TextStyle(
-                              fontFamily: 'Digitalt',
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (_) => const HelpDialog(),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 7),
+                            decoration: BoxDecoration(
+                              color: textGreen,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                  color: Colors.white.withOpacity(0.9),
+                                  width: 2.5),
+                            ),
+                            child: const Text(
+                              "HOW TO PLAY",
+                              style: TextStyle(
+                                fontFamily: 'Digitalt',
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -85,17 +95,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         const SizedBox(width: 8),
 
                         // 🔔 Notification Bell
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            Icons.notifications,
-                            size: 20,
-                            color: textPink,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const NotificationScreen(),),
+                            );
+                          },
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.notifications,
+                              size: 20,
+                              color: textPink,
+                            ),
                           ),
                         ),
 
@@ -168,7 +188,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 25),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: textPink,
+                      color: textPink.withOpacity(0.5),
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
                     ),
                     padding: EdgeInsets.symmetric( vertical: 8),

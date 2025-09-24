@@ -3,7 +3,14 @@ import 'package:jol_app/screens/auth/login_screen.dart';
 import 'package:jol_app/screens/auth/signup_screen.dart';
 import 'package:jol_app/screens/bnb/home_screen.dart';
 import 'package:jol_app/screens/dashboard/dashboard_screen.dart';
+import 'package:jol_app/screens/dashboard/notification_screen.dart';
+import 'package:jol_app/screens/group/group_screen.dart';
 import 'package:jol_app/screens/onboarding/onboarding_screen.dart';
+import 'package:jol_app/screens/play/game_screen.dart';
+import 'package:jol_app/screens/play/paly_screen.dart';
+import 'package:jol_app/screens/play/result_screen.dart';
+import 'package:jol_app/screens/play/start_game_screen.dart';
+import 'package:jol_app/screens/play/submit_game_screen.dart';
 import 'package:jol_app/screens/splash_screen.dart';
 
 void main() {

@@ -1,0 +1,587 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../dashboard/notification_screen.dart';
+import '../onboarding/onboarding_screen.dart';
+
+class ScoreBoardScreen extends StatefulWidget {
+  const ScoreBoardScreen({super.key});
+
+  @override
+  State<ScoreBoardScreen> createState() => _ScoreBoardScreenState();
+}
+
+class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
+  static const Color textPink = Color(0xFFF82A87);
+  static const Color textOrange = Color(0xFFfc6839);
+  static const Color textGreen = Color(0xFF4CAF50);
+
+  int selectedTab = 0;
+  final TextEditingController _searchController = TextEditingController();
+
+  final List<Map<String, dynamic>> sampleData = [
+    {
+      "rank": 1,
+      "name": "YOU",
+      "score": 300,
+      "tag": "RED",
+      "color": Color(0xFFfc6839),
+      "badge": 0
+    },
+    {
+      "rank": 2,
+      "name": "DANIEL-24",
+      "score": 2300,
+      "tag": "BLUE",
+      "color": Color(0xFF3A86FF),
+      "badge": 24
+    },
+    {
+      "rank": 3,
+      "name": "MARK-01",
+      "score": 2300,
+      "tag": "YELLOW",
+      "color": Color(0xFFF8D347),
+      "badge": 24
+    },
+    {
+      "rank": 4,
+      "name": "MARK-01",
+      "score": 2300,
+      "tag": "GRAY",
+      "color": Color(0xFF9E9E9E),
+      "badge": 0
+    },
+    {
+      "rank": 5,
+      "name": "DANIEL-24",
+      "score": 2300,
+      "tag": "BLUE",
+      "color": Color(0xFF3A86FF),
+      "badge": 24
+    },
+    {
+      "rank": 6,
+      "name": "MARK-01",
+      "score": 2300,
+      "tag": "YELLOW",
+      "color": Color(0xFFF8D347),
+      "badge": 24
+    },
+  ];
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Color tagColorFromString(String tag) {
+    switch (tag.toUpperCase()) {
+      case "RED":
+        return Colors.red.shade300;
+      case "BLUE":
+        return Colors.blue.shade300;
+      case "YELLOW":
+        return Colors.yellow.shade700;
+      case "GRAY":
+        return Colors.grey.shade400;
+      default:
+        return Colors.black26;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // make height responsive, but keep the same layout pattern you used
+    final double containerHeight = MediaQuery.of(context).size.height * 0.78;
+
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Container(
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFFFC0CB),
+              Color(0xFFADD8E6),
+              Color(0xFFE6E6FA),
+            ],
+          ),
+        ),
+        child: Column(
+          children: [
+            // App bar (keeps your original)
+            _buildAppBar(context),
+
+            // Search Field
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+              child: _buildSearchField(),
+            ),
+
+            // Main content
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: textPink.withOpacity(0.55),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  child: Column(
+                    children: [
+                      // LEADERBOARD header with segmented tabs
+                      Text(
+                        "LEADERBOARD",
+                        style: const TextStyle(
+                          fontFamily: 'Digitalt',
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      // The list header/tabs row (Week/Day/Month/All Time)
+                      _buildTabsRow(),
+
+                      // Leaderboard list
+                      Expanded(
+                        child: Container(
+                          child: ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: sampleData.length,
+                            itemBuilder: (context, index) {
+                              final item = sampleData[index];
+                              return LeaderboardCard(
+                                rank: item["rank"] as int,
+                                name: item["name"] as String,
+                                score: item["score"] as int,
+                                leftColor: item["color"] as Color,
+                                tag: item["tag"] as String,
+                                tagColor: tagColorFromString(item["tag"] as String),
+                                badge: item["badge"] as int,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchField() {
+    return Container(
+      height: 45,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintText: "Search User",
+          hintStyle: const TextStyle(fontFamily: 'Rubik', color: textPink),
+          prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFFF82A87)),
+          contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFF82A87), width: 1.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFF82A87), width: 1.2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Color(0xFFF82A87), width: 1.6),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabsRow() {
+    final tabs = ["WEEK", "DAY", "MONTH", "ALL TIME"];
+    return Padding(
+      padding: const EdgeInsets.symmetric( vertical: 8.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(
+            tabs.length,
+                (i) {
+              final isSelected = i == selectedTab;
+              return Container(
+                margin: const EdgeInsets.only(right: 8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() => selectedTab = i);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected ? textGreen : Colors.transparent,
+                      borderRadius: BorderRadius.circular(12),
+                      border: isSelected
+                          ? Border.all(color: Colors.white, width: 1.5)
+                          : null,
+                    ),
+                    child: Center(
+                      child: Text(
+                        tabs[i],
+                        style: TextStyle(
+                          fontFamily: 'Digitalt',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 🔠 JOL logo builder (unchanged)
+  Widget _buildJolLogo() {
+    const letters = ["J", "O", "L"];
+    const colors = [Color(0xFFf8bc64), textPink, Color(0xFFfc6839)];
+
+    return Row(
+      children: List.generate(
+        letters.length,
+            (index) => Text(
+          letters[index],
+          style: const TextStyle(
+            fontFamily: 'Digitalt',
+            fontWeight: FontWeight.w500,
+            fontSize: 35,
+            height: 0.82,
+          ).copyWith(
+            color: colors[index],
+            letterSpacing: 1.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 6,
+        left: 12,
+        right: 12,
+        bottom: 6,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.5),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildJolLogo(),
+          Row(
+            children: [
+              // ✅ HOW TO PLAY (pill button)
+              InkWell(
+                onTap: () {
+                  // NOTE: assumes HelpDialog exists elsewhere in your project.
+                  showDialog(
+                    context: context,
+                    builder: (_) => const HelpDialog(),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                  decoration: BoxDecoration(
+                    color: textGreen,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white.withOpacity(0.9), width: 2.5),
+                  ),
+                  child: const Text(
+                    "HOW TO PLAY",
+                    style: TextStyle(
+                      fontFamily: 'Digitalt',
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+
+              // 🔔 Notification Bell
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NotificationScreen()),
+                  );
+                },
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.notifications,
+                    size: 20,
+                    color: textPink,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+
+              // 💰 Coins
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white),
+                  color: textPink,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  children: [
+                    // Circle with "J"
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Center(
+                        child: Text(
+                          "J",
+                          style: TextStyle(
+                            fontFamily: 'Digitalt',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: textPink,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        "5M",
+                        style: TextStyle(
+                          fontFamily: 'Digitalt',
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+
+              // 👤 Profile Avatar
+              const CircleAvatar(
+                radius: 18,
+                backgroundImage: AssetImage("lib/assets/images/settings_emoji.png"),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// --------------------
+// Leaderboard Card Widget
+// --------------------
+class LeaderboardCard extends StatelessWidget {
+  final int rank;
+  final String name;
+  final int score;
+  final Color leftColor;
+  final String tag;
+  final Color tagColor;
+  final int badge;
+
+  const LeaderboardCard({
+    super.key,
+    required this.rank,
+    required this.name,
+    required this.score,
+    required this.leftColor,
+    required this.tag,
+    required this.tagColor,
+    required this.badge,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Left color block with rank number
+          Container(
+            width: 32,
+            height: 82,
+            decoration: BoxDecoration(
+              color: leftColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+               ),
+            ),
+            child: Center(
+              child: Text(
+                rank.toString(),
+                style: const TextStyle(
+                  fontFamily: 'Digitalt',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
+                ),
+              ),
+            ),
+          ),
+
+          // Main card area
+          Expanded(
+            child: Container(
+              height: 82,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              child: Row(
+                children: [
+                  // Avatar with badge
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      CircleAvatar(
+                        radius: 28,
+                        backgroundImage: const AssetImage("lib/assets/images/settings_emoji.png"),
+                      ),
+                      if (badge > 0)
+                        Positioned(
+                          right: -6,
+                          top: -6,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFfc4b81),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: Colors.white, width: 1.2),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.08),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              badge.toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Digitalt',
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  // Name & Score
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          name,
+                          style: TextStyle(
+                            fontFamily: 'Digitalt',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: leftColor == const Color(0xFFfc6839) ? leftColor : Colors.black87,
+                          ),
+                        ),
+                        Text(
+                          "SCORE: $score",
+                          style: const TextStyle(
+                            fontFamily: 'Digitalt',
+                            fontSize: 16,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Tag pill
+                  Container(
+                    height: 35,
+                    width: 70,
+                    decoration: BoxDecoration(
+                      color: tagColor,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.white54, width: 1.2),
+                    ),
+                    child: Center(
+                      child: Text(
+                        tag,
+                        style: const TextStyle(
+                          fontFamily: 'Digitalt',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
