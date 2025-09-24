@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // 👈 Add this
 import 'package:jol_app/screens/auth/login_screen.dart';
 import 'package:jol_app/screens/auth/signup_screen.dart';
 import 'package:jol_app/screens/bnb/home_screen.dart';
@@ -11,16 +12,24 @@ import 'package:jol_app/screens/play/paly_screen.dart';
 import 'package:jol_app/screens/play/result_screen.dart';
 import 'package:jol_app/screens/play/start_game_screen.dart';
 import 'package:jol_app/screens/play/submit_game_screen.dart';
+import 'package:jol_app/screens/settings/account_screen.dart';
 import 'package:jol_app/screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // 👈 Required before SystemChrome
+
+  // 🔒 Lock app to portrait only
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +39,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: AccountScreen(),
     );
   }
 }

@@ -19,61 +19,47 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
   int selectedTab = 0;
   final TextEditingController _searchController = TextEditingController();
 
-  final List<Map<String, dynamic>> sampleData = [
-    {
-      "rank": 1,
-      "name": "YOU",
-      "score": 300,
-      "tag": "RED",
-      "color": Color(0xFFfc6839),
-      "badge": 0
-    },
-    {
-      "rank": 2,
-      "name": "DANIEL-24",
-      "score": 2300,
-      "tag": "BLUE",
-      "color": Color(0xFF3A86FF),
-      "badge": 24
-    },
-    {
-      "rank": 3,
-      "name": "MARK-01",
-      "score": 2300,
-      "tag": "YELLOW",
-      "color": Color(0xFFF8D347),
-      "badge": 24
-    },
-    {
-      "rank": 4,
-      "name": "MARK-01",
-      "score": 2300,
-      "tag": "GRAY",
-      "color": Color(0xFF9E9E9E),
-      "badge": 0
-    },
-    {
-      "rank": 5,
-      "name": "DANIEL-24",
-      "score": 2300,
-      "tag": "BLUE",
-      "color": Color(0xFF3A86FF),
-      "badge": 24
-    },
-    {
-      "rank": 6,
-      "name": "MARK-01",
-      "score": 2300,
-      "tag": "YELLOW",
-      "color": Color(0xFFF8D347),
-      "badge": 24
-    },
+  // 👇 Different data sets for tabs
+  final List<Map<String, dynamic>> weekData = [
+    {"rank": 1, "name": "YOU", "score": 500, "tag": "RED", "color": Color(0xFFfc6839), "badge": 5},
+    {"rank": 2, "name": "JANE-12", "score": 400, "tag": "BLUE", "color": Color(0xFF3A86FF), "badge": 2},
+  ];
+
+  final List<Map<String, dynamic>> dayData = [
+    {"rank": 1, "name": "TOM-07", "score": 120, "tag": "GRAY", "color": Color(0xFF9E9E9E), "badge": 0},
+    {"rank": 2, "name": "YOU", "score": 90, "tag": "RED", "color": Color(0xFFfc6839), "badge": 1},
+  ];
+
+  final List<Map<String, dynamic>> monthData = [
+    {"rank": 1, "name": "MARK-01", "score": 3200, "tag": "YELLOW", "color": Color(0xFFF8D347), "badge": 12},
+    {"rank": 2, "name": "DANIEL-24", "score": 3000, "tag": "BLUE", "color": Color(0xFF3A86FF), "badge": 8},
+  ];
+
+  final List<Map<String, dynamic>> allTimeData = [
+    {"rank": 1, "name": "LEGEND-99", "score": 15000, "tag": "RED", "color": Color(0xFFfc6839), "badge": 50},
+    {"rank": 2, "name": "YOU", "score": 14000, "tag": "YELLOW", "color": Color(0xFFF8D347), "badge": 30},
   ];
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  // Pick list based on tab
+  List<Map<String, dynamic>> get currentList {
+    switch (selectedTab) {
+      case 0:
+        return weekData;
+      case 1:
+        return dayData;
+      case 2:
+        return monthData;
+      case 3:
+        return allTimeData;
+      default:
+        return weekData;
+    }
   }
 
   Color tagColorFromString(String tag) {
@@ -135,9 +121,9 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
                   child: Column(
                     children: [
                       // LEADERBOARD header with segmented tabs
-                      Text(
+                      const Text(
                         "LEADERBOARD",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Digitalt',
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -148,7 +134,7 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
 
                       const SizedBox(height: 6),
 
-                      // The list header/tabs row (Week/Day/Month/All Time)
+                      // The list header/tabs row
                       _buildTabsRow(),
 
                       // Leaderboard list
@@ -156,9 +142,9 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
                         child: Container(
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
-                            itemCount: sampleData.length,
+                            itemCount: currentList.length,
                             itemBuilder: (context, index) {
-                              final item = sampleData[index];
+                              final item = currentList[index];
                               return LeaderboardCard(
                                 rank: item["rank"] as int,
                                 name: item["name"] as String,
@@ -216,7 +202,7 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
   Widget _buildTabsRow() {
     final tabs = ["WEEK", "DAY", "MONTH", "ALL TIME"];
     return Padding(
-      padding: const EdgeInsets.symmetric( vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -246,7 +232,7 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
                     child: Center(
                       child: Text(
                         tabs[i],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Digitalt',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -308,7 +294,6 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
               // ✅ HOW TO PLAY (pill button)
               InkWell(
                 onTap: () {
-                  // NOTE: assumes HelpDialog exists elsewhere in your project.
                   showDialog(
                     context: context,
                     builder: (_) => const HelpDialog(),
@@ -368,7 +353,6 @@ class _ScoreBoardScreenState extends State<ScoreBoardScreen> {
                 ),
                 child: Row(
                   children: [
-                    // Circle with "J"
                     Container(
                       width: 20,
                       height: 20,
@@ -457,7 +441,7 @@ class LeaderboardCard extends StatelessWidget {
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 bottomLeft: Radius.circular(12),
-               ),
+              ),
             ),
             child: Center(
               child: Text(
@@ -490,9 +474,9 @@ class LeaderboardCard extends StatelessWidget {
                   Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 28,
-                        backgroundImage: const AssetImage("lib/assets/images/settings_emoji.png"),
+                        backgroundImage: AssetImage("lib/assets/images/settings_emoji.png"),
                       ),
                       if (badge > 0)
                         Positioned(
@@ -501,7 +485,7 @@ class LeaderboardCard extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFfc4b81),
+                              color: Color(0xFFfc4b81),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: Colors.white, width: 1.2),
                               boxShadow: [
