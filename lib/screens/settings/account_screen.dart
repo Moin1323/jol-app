@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jol_app/screens/settings/edit_profile_screen.dart';
 import 'package:jol_app/screens/settings/money_screen.dart';
 
 import 'choose_color_screen.dart';
+import 'coupons_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -170,7 +172,7 @@ class _AccountScreenState extends State<AccountScreen> {
       child: Column(
         children: [
           _headerRow(
-            "Monetisation Plans",
+            "Monetization Plans",
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -203,7 +205,8 @@ class _AccountScreenState extends State<AccountScreen> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const MoneyScreen())),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const MoneyScreen())),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFC42AF8),
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -234,7 +237,7 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Widget _couponsCard() {
+  Widget _couponsCard(BuildContext context) {
     return _sectionCard(
       child: Column(
         children: [
@@ -247,28 +250,43 @@ class _AccountScreenState extends State<AccountScreen> {
                   controller: _couponController,
                   style: const TextStyle(fontFamily: 'Rubik'),
                   decoration: InputDecoration(
-                    hintText: "Enter coupons code",
-                    hintStyle: TextStyle(
+                    hintText: "Enter coupon code",
+                    hintStyle: const TextStyle(
                       fontFamily: 'Digitalt',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFFC42AF8),
                     ),
-                    prefixIcon: const Icon(Icons.card_giftcard_outlined,
-                        color: Color(0xFFC42AF8)),
+                    prefixIcon: const Icon(
+                      Icons.card_giftcard_outlined,
+                      color: Color(0xFFC42AF8),
+                    ),
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 14, horizontal: 12),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Color(0xFFC42AF8).withOpacity(0.5)),
+                      borderSide: BorderSide(
+                          color: const Color(0xFFC42AF8).withOpacity(0.5)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: textPink.withOpacity(0.4)),
                     ),
                   ),
+                  textInputAction:
+                      TextInputAction.done, // shows "OK" on keyboard
+                  onSubmitted: (value) {
+                    if (value.trim().isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CouponScreen(),
+                        ),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 8),
                 const Align(
@@ -300,13 +318,16 @@ class _AccountScreenState extends State<AccountScreen> {
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-          color:  Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Color(0xFFC42AF8).withOpacity(0.5)),
         ),
         child: Row(
           children: [
-            Icon(icon, color: Color(0xFFC42AF8),),
+            Icon(
+              icon,
+              color: Color(0xFFC42AF8),
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
@@ -318,7 +339,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   color: Color(0xFFC42AF8),
                 ),
               ),
-            ),],
+            ),
+          ],
         ),
       );
     }
@@ -329,7 +351,7 @@ class _AccountScreenState extends State<AccountScreen> {
           _headerRow(
             "Profile Info",
             trailing: InkWell(
-              onTap: () => _showSnack('Edit Profile tapped'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const EditProfileScreen())),
               child: Container(
                 width: 36,
                 height: 36,
@@ -361,7 +383,8 @@ class _AccountScreenState extends State<AccountScreen> {
           _headerRow(
             "Colours",
             trailing: InkWell(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChooseColorScreen())),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const ChooseColorScreen())),
               child: Container(
                 width: 36,
                 height: 36,
@@ -444,7 +467,12 @@ class _AccountScreenState extends State<AccountScreen> {
                                 right: -2,
                                 top: -6,
                                 child: InkWell(
-                                  onTap: () => _showSnack('Edit avatar tapped'),
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const EditProfileScreen(),
+                                    ),
+                                  ),
                                   child: Container(
                                     width: 34,
                                     height: 34,
@@ -506,7 +534,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       _monetisationCard(),
 
                       // COUPONS
-                      _couponsCard(),
+                      _couponsCard(context),
 
                       // PROFILE INFO
                       _profileInfoCard(),

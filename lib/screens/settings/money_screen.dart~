@@ -329,7 +329,7 @@ class _MoneyScreenState extends State<MoneyScreen> {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  Icons.upgrade, // 💰 you can change to any relevant icon
+                  Icons.upgrade_outlined, // 💰 you can change to any relevant icon
                   color: Colors.white,
                   size: 18,
                 ),
